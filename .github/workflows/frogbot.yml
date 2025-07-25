@@ -44,6 +44,7 @@ jobs:
           JF_PROJECT: "dis"
           JF_WATCHES: "dis_watcher01"
           JF_WORKING_DIR: "${{ github.event.repository.name }}/.."
+          JF_FAIL: true
           #JF_GIT_REPO: ${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_id }}
           #JF_GIT_OWNER: ${{ github.event.repository.name }}_${{ github.run_number }}
 
