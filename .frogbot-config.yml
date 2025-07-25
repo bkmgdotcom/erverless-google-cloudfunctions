@@ -1,0 +1,9 @@
+version: 1
+repos:
+  - repoName: my-org/my-service
+    branches:
+      - main
+    project: dis
+    params:
+      jfrogCliBuildName: frogbot-github-action
+      jfrogCliBuildNumber: ${{ github.run_id }}
