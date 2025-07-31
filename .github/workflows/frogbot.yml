@@ -26,7 +26,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 16
-          
+      - name: Show current branch
+        run: echo "Current branch is ${{ github.ref_name }}" ; env
+        
       - uses: jfrog/frogbot@v2
         # [Mandatory if using OIDC authentication protocol instead of JF_ACCESS_TOKEN]
         # Insert to oidc-provider-name the 'Provider Name' defined in the OIDC integration configured in the JPD
@@ -36,7 +38,7 @@ jobs:
           JF_URL: ${{ secrets.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JF_GIT_BASE_BRANCH: ${{ github.base_ref }}_${{ github.run_number }}_${{ github.run_id }}
+          JF_GIT_BASE_BRANCH: ${{ github.ref_name }}
           JF_PROJECT: "dis"
           JF_FAIL: true
           #JF_GIT_REPO: ${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_id }}
