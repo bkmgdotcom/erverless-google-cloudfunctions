@@ -36,7 +36,7 @@ jobs:
           JF_URL: ${{ secrets.JF_URL }}
           JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
           JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JF_GIT_BASE_BRANCH: ${{ github.head_ref }}" 
+          JF_GIT_BASE_BRANCH: ${{ github.base_ref }}_${{ github.run_number }}_${{ github.run_id }}
           JF_PROJECT: "dis"
           JF_FAIL: true
           #JF_GIT_REPO: ${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_id }}
