@@ -29,21 +29,42 @@ jobs:
       - name: Show current branch
         run: echo "Current branch is ${{ github.ref_name }}" ; env
         
-      - uses: jfrog/frogbot@v2
+   #   - uses: jfrog/frogbot@v2
         # [Mandatory if using OIDC authentication protocol instead of JF_ACCESS_TOKEN]
         # Insert to oidc-provider-name the 'Provider Name' defined in the OIDC integration configured in the JPD
         # with:
         #   oidc-provider-name: ""
-        with:
-          run-type: "scan-and-fail"
-        env:
-          JF_URL: ${{ secrets.JF_URL }}
-          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
-          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JF_GIT_BASE_BRANCH: ${{ github.ref_name }}
-          JF_PROJECT: "dis"
-          JF_FAIL: true
+    #    with:
+     #     run-type: "scan-and-fail"
+      #  env:
+       #   JF_URL: ${{ secrets.JF_URL }}
+        #  JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+         # JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #JF_GIT_BASE_BRANCH: ${{ github.ref_name }}
+          #JF_PROJECT: "dis"
+          #JF_FAIL: true
           #JF_GIT_REPO: ${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_id }}
           #JF_GIT_OWNER: ${{ github.event.repository.name }}_${{ github.run_number }}
           #    JF_WATCHES: "dis_watcher01"
           #JF_WORKING_DIR: ${{ github.workspace }}
+          
+      - name: Run Frogbot scan
+        uses: jfrog/frogbot@v2
+        with:
+          run-type: scan-and-fail
+        env:
+          JF_URL: ${{ secrets.JF_URL }}
+          JF_ACCESS_TOKEN: ${{ secrets.JF_ACCESS_TOKEN }}
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JF_GIT_BASE_BRANCH: main
+          JF_PROJECT: dis
+          JF_FAIL: true
+
+      - name: Check for Xray violations
+        run: |
+          violations=$(jf xray scan --watches=my-watch-name --format=json . | jq '.summary.violation_count')
+          echo "Violation count: $violations"
+          if [ "$violations" -gt 0 ]; then
+            echo "❌ Build failed due to Xray violations"
+            exit 1
+          fi
