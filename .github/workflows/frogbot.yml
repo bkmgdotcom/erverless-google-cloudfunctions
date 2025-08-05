@@ -62,6 +62,7 @@ jobs:
 
       - name: Check for Xray violations
         run: |
+          sudo apt install jq
           violations=$(jf xray scan --watches=my-watch-name --format=json . | jq '.summary.violation_count')
           echo "Violation count: $violations"
           if [ "$violations" -gt 0 ]; then
