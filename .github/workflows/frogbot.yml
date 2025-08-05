@@ -59,7 +59,11 @@ jobs:
           JF_GIT_BASE_BRANCH: main
           JF_PROJECT: dis
           JF_FAIL: true
-
+          
+      - uses: jfrog/setup-jfrog-cli@v4
+        env:
+          JF_GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
       - name: Check for Xray violations
         run: |
           sudo apt install jq
